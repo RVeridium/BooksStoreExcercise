@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.palvelin.bookstore.domain.Book;
 import fi.palvelin.bookstore.domain.BookRepository;
+import fi.palvelin.bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
 	@Autowired
-	private BookRepository repo;  
+	private BookRepository repo;
+	@Autowired
+	private CategoryRepository repo2; 
 	
 	@RequestMapping(value="/booklist") 
 	public String allBooks(Model model) {
@@ -27,6 +30,7 @@ public class BookController {
 	 @RequestMapping(value = "/add")
 	    public String addBook(Model model){
 	    	model.addAttribute("book", new Book());
+	    	model.addAttribute("categories", repo2.findAll()); 
 	        return "newbook";
 	    }  
 	 
@@ -44,15 +48,22 @@ public class BookController {
 	 
 	 @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
 	 	public String editBook(@PathVariable("id") long bookId, Model model) {
-		 model.addAttribute("book", repo.findById(bookId)); 
+		 model.addAttribute("book", repo.findById(bookId).get()); 
+		 model.addAttribute("categories", repo2.findAll());
 		 return "editbook"; 
 	 }
 	 
 	 @RequestMapping(value = "edit/update/{id}", method = RequestMethod.POST)
-	    public String update(@PathVariable("id") long bookId, @ModelAttribute("book") Book book, Model model) {
-		 	repo.save(book); 
-		 	model.addAttribute("books", repo.findAll()); 
-	        return "redirect:/booklist";
+	    public String update(Book book, Model model) {
+		 repo.save(book); 
+		 //model.addAttribute("books", repo.findAll()); 
+	     return "redirect:/booklist";
 	    }
-
+	    /*
+	     @RequestMapping(value = "edit/save", method = RequestMethod.POST)
+	    public String save2(Book book){
+	        repo.save(book);
+	        return "redirect:booklist";
+	    }
+	    */
 }

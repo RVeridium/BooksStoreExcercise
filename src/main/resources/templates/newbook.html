@@ -1,21 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>You may add a book to this server</title>
+	<title>You may add a book to this server and fix the CSSSSSSS</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link type="text/css"rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" /> 
 </head>
 	<body>
-		<form action="#" th:object=${book} th:action=@{save} method="post">
-			<label for="title">Title</label>
+		<form class="form-horizontal" action="#" th:object=${book} th:action=@{save} method="post">
+			<label for="title" class="control-label" >Title</label>
 			<input type="text" id="title" th:field="*{title}"/>
-			<label for="author">Author</label>
+			<label for="author" class="control-label">Author</label>
 			<input type="text" id="author" th:field="*{author}"/>
-			<label for="isbn">ISBN</label>
+			<label for="isbn" class="control-label">ISBN</label>
 			<input type="text" id="isbn" th:field="*{isbn}"/>
-			<label for="year">Year</label>
+			<label for="year" class="control-label">Year</label>
 			<input type="number" id="year" th:field="*{year}"/>
-			<label for="price">Price</label>
+			<label for="price" class="control-label">Price</label>
 			<input type="number" id="price" step="0.01" th:field="*{price}"/>
+			<label for="catlist" class="control-label">Category</label>
+			<select id="catlist" th:field="*{category}" class="form-control">
+			<option th:each="category:${categories}"
+					th:value="${category.catId}"
+					th:text="${category.name}"></option>
+			</select>
 			<div style="clear: both; display: block; height: 10px;"></div>
 			<input type="submit" value="Save"/>
 		</form>
