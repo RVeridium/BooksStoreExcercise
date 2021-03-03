@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 import fi.palvelin.bookstore.domain.Book;
 import fi.palvelin.bookstore.domain.BookRepository;
+import fi.palvelin.bookstore.domain.BookUser;
+import fi.palvelin.bookstore.domain.BookUserRepo;
 import fi.palvelin.bookstore.domain.Category;
 import fi.palvelin.bookstore.domain.CategoryRepository;
 
@@ -23,7 +25,7 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(BookRepository repository, CategoryRepository repo2){
+	public CommandLineRunner demo(BookRepository repository, CategoryRepository repo2, BookUserRepo userepo){
 		
 		return(args)-> {
 			log.info("Creating categories");
@@ -37,7 +39,12 @@ public class BookstoreApplication {
 			for (Book book: repository.findAll()) {
 				log.info(book.toString());
 			}; 
+			
+			userepo.save(new BookUser("user", "$2a$05$IOA6zU6POEMZ1uiOw/8ckurS58.wgRuss95WUUxSrSw6gzO4coApm", "USER")); 
+			userepo.save(new BookUser("admin", "$2a$05$FSsAAxlysvCpWkp5RBHXGeSvRo1FpNp3O1DOpXW3hoPublP9sPHgW", "ADMIN")); 
 		}; 	
 	}
+
+	
 
 }

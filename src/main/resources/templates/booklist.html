@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<title>You may have books on this server</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -7,6 +8,8 @@
 </head>
 	<body>
 		<div><h1>Books, all of them</h1></div>
+		<a class="btn btn-success" th:href=@{logout}>Logout</a>
+		<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 		<table class="table table-striped">
 			<tr>
 				<th>Title</th>
@@ -24,7 +27,7 @@
 				<td th:text=${book.isbn}></td>
 				<td th:text=${book.year}></td>
 				<td th:text=${book.price}></td>
-				<td><a th:href=@{delete/{id}(id=${book.id})} class="btn btn-danger">Delete</a>
+				<td><a sec:authorize="hasAuthority('ADMIN')" th:href=@{delete/{id}(id=${book.id})} class="btn btn-danger">Delete</a>
 				<a th:href=@{edit/{id}(id=${book.id})} class="btn btn-success">Edit</a></td>
 			</tr>
 		</table>
